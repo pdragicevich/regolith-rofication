@@ -25,18 +25,21 @@ class NotificationQueue:
 
     @property
     def __apps_blocked(self) -> list[str]:
-        print(resources.apps_blocked.fetch())
-        return resources.apps_blocked.fetch().split(',')
+        blocked=resources.apps_blocked.fetch()
+        print(f'__apps_blocked: {blocked}')
+        return blocked.split(',')
 
     @property
     def __apps_can_expire(self) -> list[str]:
-        print(resources.apps_can_expire.fetch())
-        return resources.apps_can_expire.fetch().split(',')
+        expire=resources.apps_can_expire.fetch()
+        print(f'__apps_can_expire: {expire}');
+        return expire.split(',')
 
     @property
     def __apps_single(self) -> list[str]:
-        print(resources.apps_single.fetch())
-        return resources.apps_single.fetch().split(',')
+        single=resources.apps_single.fetch()
+        print(f'__apps_single: {single}')
+        return single.split(',')
 
     @property
     def lock(self) -> threading.Lock:
