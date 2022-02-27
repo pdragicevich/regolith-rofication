@@ -7,10 +7,7 @@ from warnings import warn
 
 from ._notification import Notification, CloseReason, Urgency
 from ._util import Event
-
-ALLOWED_TO_EXPIRE = ('notify-send',)
-SINGLE_NOTIFICATION_APPS = ('VLC media player',)
-
+from rofication import resources
 
 class NotificationQueue:
     def __init__(self, mapping: Mapping[int, Notification] = None) -> None:
@@ -25,6 +22,21 @@ class NotificationQueue:
 
     def __iter__(self) -> Iterator[Notification]:
         return iter(self._mapping.values())
+
+    @property
+    def __apps_blocked(self) -> list[str]:
+        print(resources.apps_blocked.fetch())
+        return resources.apps_blocked.fetch().split(',')
+
+    @property
+    def __apps_can_expire(self) -> list[str]:
+        print(resources.apps_can_expire.fetch())
+        return resources.apps_can_expire.fetch().split(',')
+
+    @property
+    def __apps_single(self) -> list[str]:
+        print(resources.apps_single.fetch())
+        return resources.apps_single.fetch().split(',')
 
     @property
     def lock(self) -> threading.Lock:
@@ -61,8 +73,13 @@ class NotificationQueue:
             self.remove(nid)
 
     def put(self, notification: Notification) -> None:
+        print(f'NotificationQueue received {notification.application} "{notification.summary}"')
+        if notification.application in self.__apps_blocked:
+            print('- blocked')
+            return
+
         to_replace: Optional[int]
-        if notification.application in SINGLE_NOTIFICATION_APPS:
+        if notification.application in self.__apps_single:
             # replace notification for applications that only allow one
             to_replace = next((ntf.id for ntf in self._mapping.values()
                                if ntf.application == notification.application), None)
@@ -85,7 +102,7 @@ class NotificationQueue:
         now = time.time()
         to_remove = [ntf.id for ntf in self._mapping.values()
                      if ntf.deadline and ntf.deadline < now
-                     and ntf.application in ALLOWED_TO_EXPIRE]
+                     and ntf.application in self.__apps_can_expire]
         if to_remove:
             print(f'Expired: {to_remove}')
             for nid in to_remove:

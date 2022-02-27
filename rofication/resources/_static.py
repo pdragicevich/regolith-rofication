@@ -14,3 +14,7 @@ label_color = Resource(env_name='label_color', xres_name='i3xrocks.label.color',
 nominal_color = Resource(env_name='background_color', xres_name='i3xrocks.nominal', default='#E6E1CF')
 warning_color = Resource(env_name='warn_color', xres_name='i3xrocks.warning', default='#FFD580')
 critical_color = Resource(xres_name='i3xrocks.critical.color', default='#BF616A')
+
+apps_blocked = Resource(env_name='i3xrocks_rofication_apps_blocked', xres_name='i3xrocks.rofication.apps.blocked', default='')
+apps_can_expire = Resource(env_name='i3xrocks_rofication_apps_can_expire', xres_name='i3xrocks.rofication.apps.can_expire', default='notify-send')
+apps_single = Resource(env_name='i3xrocks_rofication_apps_single', xres_name='i3xrocks.rofication.apps.single', default='VLC media player')
