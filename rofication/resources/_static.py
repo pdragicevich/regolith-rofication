@@ -17,4 +17,5 @@ critical_color = Resource(xres_name='i3xrocks.critical.color', default='#BF616A'
 
 apps_blocked = Resource(env_name='i3xrocks_rofication_apps_blocked', xres_name='i3xrocks.rofication.apps.blocked', default='')
 apps_can_expire = Resource(env_name='i3xrocks_rofication_apps_can_expire', xres_name='i3xrocks.rofication.apps.can_expire', default='notify-send')
-apps_single = Resource(env_name='i3xrocks_rofication_apps_single', xres_name='i3xrocks.rofication.apps.single', default='VLC media player')
+apps_single = Resource(env_name='i3xrocks_rofication_apps_single', xres_name='i3xrocks.rofication.apps.single', default='VLC media player,Spotify')
+apps_transient = Resource(env_name='i3xrocks_rofication_apps_transient', xres_name='i3xrocks.rofication.apps.transient', default='VLC media player,Spotify')
